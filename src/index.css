@@ -3,10 +3,7 @@
 @tailwind utilities;
 
 @layer utilities {
-    
-}
-
-/* my custom styles here */
-.h-full {
-    height: 100vh;
+    .flex-center {
+        @apply flex justify-center items-center
+    }
 }
