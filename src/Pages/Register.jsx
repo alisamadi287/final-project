@@ -20,7 +20,7 @@ export const Register = () => {
                     <i className="ion-ios-locked text-gray-400 absolute top-3 right-4"></i>
                 </div>
                 <div className="w-full mb-5 ">
-                    <a id="loginBtn" className="w-full flex justify-center cursor-pointer items-center gap-4 h-12 pointer bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-center font-base rounded-full shadow-md transition-all ease-in">
+                    <Link to="/" className="w-full flex justify-center cursor-pointer items-center gap-4 h-12 pointer bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-center font-base rounded-full shadow-md transition-all ease-in">
                         <span id="loginText" className="transition-all eas-out">Sign Up</span>
                         <svg xmlns="http://www.w3.org/2000/svg" id="arrow" className="w-5 h-5 transition-all eas-out sm:block rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -61,7 +61,7 @@ export const Register = () => {
                                 </circle>
                             </g>
                         </svg>
-                    </a>
+                    </Link>
                 </div>
                 <div>
                     <span className='text-medium'>Already have account? 
