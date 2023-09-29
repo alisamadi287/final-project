@@ -1,30 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import ChatApp from './Pages/ChatApp'
 import { Login } from './Pages/Login'
 import { Register } from './Pages/Register'
+import { AuthContext } from './Context/AuthContext'
 
 const App = () => {
-
-  const [ theme, setTheme ] = useState('light');
-
-  useEffect(() => {
-    if(theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');  
-    }
-  }, theme);
-
-  const handleThemeSwitch = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  }
-
+  const { user } = useContext(AuthContext);
   return (
     <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/' element={ <ChatApp switchTheme={handleThemeSwitch} />} />
+        <Route path='/login' element={user ? <ChatApp /> : <Login />} />
+        <Route path='/register' element={user ? <ChatApp /> : <Register />}  />
+        <Route path='/' element={user ? <ChatApp /> : <Login />}  />
         <Route path='*' element={<Navigate to='/' />} />
     </Routes>
   )

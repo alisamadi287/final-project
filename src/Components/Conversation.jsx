@@ -3,7 +3,7 @@ import Header from './Header'
 import MessageContainer from './MessageContainer'
 import MessageInput from './MessageInput'
 
-const MainSection = () => {
+const Conversation = () => {
   return (
     <section className="relative w-full">
       <Header />
@@ -15,4 +15,4 @@ const MainSection = () => {
   )
 }
 
-export default MainSection
+export default Conversation

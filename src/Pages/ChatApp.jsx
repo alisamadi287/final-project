@@ -1,14 +1,14 @@
 import React from 'react'
 import Sidebar from '../Components/Sidebar'
-import MainSection from '../Components/MainSection'
 import Chats from '../Components/Chats'
+import Conversation from './../Components/Conversation';
 
-const ChatApp = ({ swicthTheme }) => {
+const ChatApp = () => {
   return (
-    <div className="flex">
+    <div className="flex dark:bg-gray-700" key={12}>
       <Sidebar />
-      <Chats {...swicthTheme } />
-      <MainSection />
+      <Chats />
+      <Conversation />
     </div>
   )
 }
