@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { AuthContext } from '../Context/AuthContext';
+import { AuthContext } from '../../Context/AuthContext';
+import profile from '../../assets/img/profile2.jpg';
 
 const Header = () => {
   const { user } = useContext(AuthContext);
@@ -7,7 +8,7 @@ const Header = () => {
     <div className="absolute top-0 w-full right-0 h-16 bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-600 p-3">
       <div className="profile flex items-center gap-3">
         <div className="w-10 h-10 round-full">
-          <img src="./img/profile2.jpg" alt="profile" className='rounded-full' />
+          <img src={profile} alt="profile" className='rounded-full' />
         </div>
         <div className="flex flex-col">
           <h4 className="font-semibold text-normal dark:text-gray-200">{user?.name}</h4>

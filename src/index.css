@@ -1,4 +1,18 @@
 @tailwind base;
+@layer base {
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gradient-to-b from-cyan-600 to-blue-600;
+        width: 6px;
+        border-radius: 100px;
+    }
+    ::-webkit-scrollbar-track {
+        width: 6px;
+        border-radius: 100px;
+    } 
+}
 @tailwind components;
 @tailwind utilities;
 
