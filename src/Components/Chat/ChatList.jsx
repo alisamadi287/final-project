@@ -9,7 +9,7 @@ import Loading from "../common/Loading";
 const ChatList = () => {
   const { user } = useContext(AuthContext);
 
-  const { userChats, isUserChatsLoading, userChatsError } =
+  const { userChats, isUserChatsLoading, updateCurrentChat } =
     useContext(ChatContext);
   const [selected, setSelected] = useState(0);
   const searchIcon = "ion-ios-search text-blue-900 dark:text-gray-300";
@@ -24,7 +24,9 @@ const ChatList = () => {
             {isUserChatsLoading && <Loading />}
             {userChats?.map((chat, index) => {
               return (
-                <Chat key={index} user={user} chat={chat} className={{ bg: 'bg-white dark:bg-gray-600', color: 'text-gray-600 dark:text-gray-200' }} />
+                <div key={index} onClick={ () => updateCurrentChat(chat) }>
+                  <Chat user={user} chat={chat} className={{ bg: 'bg-white dark:bg-gray-600', color: 'text-gray-600 dark:text-gray-200' }} />
+                </div>
               );
             })}
           </div>

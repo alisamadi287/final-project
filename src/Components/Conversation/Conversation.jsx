@@ -5,12 +5,10 @@ import MessageInput from './MessageInput'
 
 const Conversation = () => {
   return (
-    <section className="relative w-full">
+    <section className="container flex flex-col justify-between h-screen overflow-hidden">
       <Header />
-      <div className="h-full w-full flex flex-col justify-end p-4">
-        <MessageContainer />
-        <MessageInput />
-      </div>
+      <MessageContainer />
+      <MessageInput />
     </section>
   )
 }

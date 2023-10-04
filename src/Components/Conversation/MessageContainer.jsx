@@ -1,24 +1,34 @@
-import React from 'react';
-import profile1 from '../../assets/img/profile4.png';
-import profile2 from '../../assets/img/profile3.png';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthContext';
+import { ChatContext } from '../../Context/ChatContext';
+import { useFectchRecipient } from '../../Hooks/useFetchRecipient';
+import Loading from './../common/Loading';
 
 const MessageContainer = () => {
+  const { user } = useContext(AuthContext);
+  const { messages, currentChat, isMessageLoading, messageError } = useContext(ChatContext);
+  const { recipientUser } = useFectchRecipient(currentChat, user);
+
+  if (!recipientUser) {
+    return (<div className="flex-center flex-col w-full dark:text-gray-200">
+      <p>No conversation is selected yet...</p>
+    </div>)
+  }
+
+  if (isMessageLoading) {
+    return (
+      <div className="flex-center flex-col w-full">
+        <Loading />
+      </div>
+    )
+  }
   return (
-    <div className="h-full w-full flex flex-col justify-end gap-4 py-4">
-      <div className='flex justify-end items-start gap-2'>
-        <p className='p-2 bg-gradient-to-r from-cyan-600 to-blue-600 rounded text-white max-w-[300px] shadow-lg'>Hi dear!!!</p>
-        <div className="w-7 h-7 round-full">
-          <img src={profile1} alt="profile" className='rounded-full shadow-lg' />
-        </div>
+    <div className="flex flex-col gap-3 h-full overflow-auto p-2">
+        {messages && messages.map((message, index) => <div key={index} className={`${message.senderId === user._id ? "sender" : "reciever"} p-2 max-w-[300px]`}>
+          <span>{message.text}</span>
+        </div>)}
       </div>
-      <div className='flex justify-start items-start gap-2'>
-        <div className="w-7 h-7 round-full">
-          <img src={profile2} alt="profile" className='rounded-full shadow-lg' />
-        </div>
-        <p className='bg-gray-300 dark:bg-gray-600 p-2 rounded text-black-700 dark:text-gray-200 flex justify-start shadow-lg max-w-[300px]'>Hello sir, how are you doing? I hope you are doing really well.</p>
-      </div>
-    </div>
-  )
+  );
 }
 
 export default MessageContainer

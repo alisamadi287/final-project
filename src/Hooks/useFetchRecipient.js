@@ -22,7 +22,7 @@ export const useFectchRecipient = (chat, user) => {
             setRecipientUser(response);
         };
         getUser();
-    }, []);
+    }, [recipientId]);
     
     return { recipientUser };
 }
