@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Search from "../common/Search";
 import Divider from "../common/Divider";
 import Chat from "./Chat";
@@ -11,7 +11,6 @@ const ChatList = () => {
 
   const { userChats, isUserChatsLoading, updateCurrentChat } =
     useContext(ChatContext);
-  const [selected, setSelected] = useState(0);
   const searchIcon = "ion-ios-search text-blue-900 dark:text-gray-300";
   return (
     <>

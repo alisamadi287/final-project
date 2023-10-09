@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import { baseUrl, getRequest, postRequest } from './../utils/services';
+import {io} from 'socket.io-client';
 
 export const ChatContext = createContext();
 
@@ -14,6 +15,54 @@ export const ChatContextProvider = ({ children, user }) => {
     const [ messageError, setMessageError ] = useState(null);
     const [ newMessage, setNewMessage] = useState(null);
     const [ sendMessageError, setSendMessageError ] = useState(null);
+    const [socket, setSocket] = useState(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+
+    // initial socket
+    useEffect(() => {
+        const newSocket = io("http://localhost:4000");
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        }
+    }, [user]);
+
+    // add online user
+    useEffect(() => {
+        if(socket === null) return
+        socket.emit("addNewUser", user?._id);
+        socket.on("getOnlineUsers", (onlineUsers) => {
+            setOnlineUsers(onlineUsers);
+        })
+
+        return () => {
+            socket.off("getOnlineUsers");
+        }
+    },[socket])
+
+
+    // send real time message
+    useEffect(() => {
+        if(socket === null) return;
+        const recipientId = currentChat?.members.find((id) => id !== user?._id);
+        socket.emit("sendMessage", {...newMessage, recipientId});
+    }, [newMessage]);
+
+    // recieve message
+   useEffect(() => {
+    if(socket === null) return;
+    socket.on("getMessage", res => {
+        if(currentChat?.id !== res.chatId) return;
+
+        setMessages(prev => [...prev, res]);
+    });
+
+    return () => {
+        socket.off("getMessage")
+    };
+   }, [socket, currentChat]);
+
     useEffect(()=> {
         const getUsers = async () => {
             const response = await getRequest(`${baseUrl}/users`);
@@ -76,10 +125,9 @@ export const ChatContextProvider = ({ children, user }) => {
 
     const updateCurrentChat = useCallback((chat) => {
         setCurrentChat(chat);
-    });
+    },[]);
 
     const createChat = useCallback(async (firstId, secondId) => {
-        console.log("working!!!!!!!!");
         const response = await postRequest(`${baseUrl}/chats`, JSON.stringify({
             firstId, 
             secondId,
@@ -126,6 +174,7 @@ export const ChatContextProvider = ({ children, user }) => {
         messageError,
         isMessageLoading,
         sendTextMessage,
+        onlineUsers,
     }}>
         {children}
     </ChatContext.Provider>)
