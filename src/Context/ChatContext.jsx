@@ -17,6 +17,7 @@ export const ChatContextProvider = ({ children, user }) => {
     const [ sendMessageError, setSendMessageError ] = useState(null);
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [notifications, setNotifications] = useState([]);
 
     // initial socket
     useEffect(() => {
@@ -42,24 +43,36 @@ export const ChatContextProvider = ({ children, user }) => {
     },[socket])
 
 
-    // send real time message
+    // send message
     useEffect(() => {
         if(socket === null) return;
+        
         const recipientId = currentChat?.members.find((id) => id !== user?._id);
-        socket.emit("sendMessage", {...newMessage, recipientId});
+        socket.emit("sendMessage", { ...newMessage, recipientId });
+
     }, [newMessage]);
 
     // recieve message
    useEffect(() => {
     if(socket === null) return;
     socket.on("getMessage", res => {
-        if(currentChat?.id !== res.chatId) return;
+        if(currentChat?._id !== res.chatId) return;
 
         setMessages(prev => [...prev, res]);
     });
 
+    // get message notification
+    socket.on("getNotification", (res) => {
+        const isChatOpen = currentChat?.members.some(id => id === res.senderId);
+        if(isChatOpen) {
+            setNotifications(prev => [{...res, isRead: true}, ...prev])
+        } else {
+            setNotifications(prev => [...prev, res]);
+        }
+    })
+
     return () => {
-        socket.off("getMessage")
+        socket.off("getNotification")
     };
    }, [socket, currentChat]);
 
@@ -175,6 +188,7 @@ export const ChatContextProvider = ({ children, user }) => {
         isMessageLoading,
         sendTextMessage,
         onlineUsers,
+        notifications,
     }}>
         {children}
     </ChatContext.Provider>)

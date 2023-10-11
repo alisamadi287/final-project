@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 import { ChatContext } from '../../Context/ChatContext';
 import { useFectchRecipient } from '../../Hooks/useFetchRecipient';
@@ -8,6 +8,11 @@ const MessageContainer = () => {
   const { user } = useContext(AuthContext);
   const { messages, currentChat, isMessageLoading, messageError } = useContext(ChatContext);
   const { recipientUser } = useFectchRecipient(currentChat, user);
+  const scroll = useRef();
+
+  useEffect(() => {
+    scroll.current?.scrollIntoView({behavior: "smooth"});
+  }, [messages])
 
   if (!recipientUser) {
     return (<div className="flex-center flex-col w-full dark:text-gray-200">
@@ -23,11 +28,11 @@ const MessageContainer = () => {
     )
   }
   return (
-    <div className="flex flex-col gap-3 h-full overflow-auto p-2">
+    <div className="flex flex-col gap-3 h-full overflow-auto p-2" ref={scroll}>
         {messages && messages.map((message, index) => <div key={index} className={`${message.senderId === user._id ? "sender" : "reciever"} p-2 max-w-[300px]`}>
           <span>{message.text}</span>
-        </div>)}
-      </div>
+      </div>)}
+    </div>
   );
 }
 
