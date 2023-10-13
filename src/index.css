@@ -16,10 +16,12 @@
 @tailwind components;
 @layer components {
     .sender {
-        @apply flex self-end bg-gradient-to-r from-sky-500 to-indigo-500 rounded-lg text-gray-200
+        @apply flex self-end bg-gradient-to-r from-sky-500 to-indigo-500 rounded-xl text-gray-200;
+        border-top-right-radius: 0;
     }
     .reciever {
-        @apply bg-sky-100 flex self-start text-gray-700 dark:bg-sky-100 dark:text-gray-800 rounded-lg
+        @apply bg-sky-100 flex self-start text-gray-700 dark:bg-sky-100 dark:text-gray-800 rounded-xl;
+        border-top-left-radius: 0;
     }
 }
 @tailwind utilities;    

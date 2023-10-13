@@ -29,8 +29,9 @@ const MessageContainer = () => {
   }
   return (
     <div className="flex flex-col gap-3 h-full overflow-auto p-2" ref={scroll}>
-        {messages && messages.map((message, index) => <div key={index} className={`${message.senderId === user._id ? "sender" : "reciever"} p-2 max-w-[300px]`}>
-          <span>{message.text}</span>
+        {messages && messages.map((message, index) => <div key={index} className={`flex flex-col chat chat-start ${message.senderId === user._id ? "sender" : "reciever"} p-2 max-w-[300px]`}>
+          <span className='chat-bubble'>{message.text}</span>
+          <span className='text-[8.5pt] text-gary-400 mt-2'>{message.createdAt}</span>
       </div>)}
     </div>
   );
